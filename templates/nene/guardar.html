@@ -1,0 +1,57 @@
+{% extends 'template.html' %} {% block content %}
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      document.getElementById('boton').addEventListener('click', (event) => {
+        // Evita que el formulario se envíe automáticamente
+        event.preventDefault()
+    
+        // Obtén los valores de los campos del formulario
+        const dni = document.getElementById('dni').value
+        const apellido = document.getElementById('apellido').value
+        const nombres = document.getElementById('nombres').value
+        const telefono = document.getElementById('telefono').value
+        const direccion = document.getElementById('direccion').value
+    
+        // Verifica que todos los campos estén llenos
+        if (dni && apellido && nombres && telefono && direccion) {
+          // Si todos los campos están llenos, muestra un mensaje de éxito con los datos enviados
+          const mensaje = 'Datos enviados correctamente:\n\n' + 'DNI: ' + dni + '\n' + 'Apellidos: ' + apellido + '\n' + 'Nombres: ' + nombres + '\n' + 'Teléfono: ' + telefono + '\n' + 'Dirección: ' + direccion
+          alert(mensaje)
+    
+          // Envía el formulario
+          window.location.href = '/personas/guardar'
+        } else {
+          // Si falta algún campo, muestra un mensaje de error
+          alert('Por favor completa todos los campos.')
+        }
+      })
+    })
+  </script>
+  <h2 class="text-white">Agregar nenes</h2>
+
+  <div class="booking-form-body">
+    <a href="/personas" class="btn btn-danger">Volver</a>
+    <form class="custom-form booking-form" id="form" action="/personas/guardar" method="post" role="form">
+      <div class="row">
+        <div class="text-center mb-4 pb-lg-2">
+          <input type="text" name="dni" id="dni" class="form-control" placeholder="DNI" required />
+        </div>
+        <div class="text-center mb-4 pb-lg-2">
+          <input type="text" name="apellido" id="apellido" class="form-control" placeholder="Apellidos" required />
+        </div>
+        <div class="text-center mb-4 pb-lg-2">
+          <input type="text" name="nombres" id="nombres" class="form-control" placeholder="NOMBRES" required />
+        </div>
+        <div class="text-center mb-4 pb-lg-2">
+          <input type="text" name="telefono" id="telefono" class="form-control" placeholder="TELEFONO" required />
+        </div>
+        <div class="text-center mb-4 pb-lg-2">
+          <input type="text" name="direccion" id="direccion" class="form-control" placeholder="DIRECCION" required />
+        </div>
+        <div class="col-lg-4 col-md-10 col-8 mx-auto mt-2">
+          <button type="submit" class="form-control btn btn-success boton">Guardar</button>
+        </div>
+      </div>
+    </form>
+  </div>
+{% endblock %}

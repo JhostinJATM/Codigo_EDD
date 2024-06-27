@@ -1,0 +1,11 @@
+
+________INSTALACIONES________
+
+pip install flask 
+pip install flask-cors 
+pip intall dotenv
+pip install python-dotenv
+pip colorama
+pip install pymysql
+
+

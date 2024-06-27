@@ -1,0 +1,30 @@
+{% extends 'template.html' %} {% block content %}
+  <h2 class="text-white">Agregar nenes</h2>
+
+  <div class="booking-form-body">
+    <a href="/personas" class="btn btn-danger">Volver</a>
+    <form class="custom-form booking-form" id="form" action="/personas/modificar" method="post" role="form">
+      <div class="booking-form-body">
+        <input type="hidden" name="id" value="{{ data._id }}" />
+        <div class="text-center mb-4 pb-lg-2">
+          <input type="text" name="dni" id="dni" value="{{ data._dni }}" class="form-control" placeholder="DNI" required />
+        </div>
+        <div class="text-center mb-4 pb-lg-2">
+          <input type="text" name="apellido" id="apellido" value="{{ data._apellido }}" class="form-control" placeholder="Apellidos" required />
+        </div>
+        <div class="text-center mb-4 pb-lg-2">
+          <input type="text" name="nombres" id="nombres" value="{{ data._nombres }}" class="form-control" placeholder="NOMBRES" required />
+        </div>
+        <div class="text-center mb-4 pb-lg-2">
+          <input type="text" name="telefono" id="telefono" value="{{ data._telefono }}" class="form-control" placeholder="TELEFONO" required />
+        </div>
+        <div class="text-center mb-4 pb-lg-2">
+          <input type="text" name="direccion" id="direccion" value="{{ data._direccion }}" class="form-control" placeholder="DIRECCION" required />
+        </div>
+        <div class="col-lg-4 col-md-10 col-8 mx-auto mt-2">
+          <button type="submit" class="form-control btn btn-success">Guardar</button>
+        </div>
+      </div>
+    </form>
+  </div>
+{% endblock %}
