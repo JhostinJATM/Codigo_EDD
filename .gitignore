@@ -1,5 +1,5 @@
 
-/EED_3UNIDAD/virtual/
-/EED_3UNIDAD/view/
-/EED_3UNIDAD/data/
-/EED_3UNIDAD/**/__pycache__/
+virtual/
+view/
+data/
+**/__pycache__/
