@@ -1,0 +1,21 @@
+var nodes = new vis.DataSet([{id: 1,label:"1"},
+{id: 2,label:"2"},
+{id: 3,label:"3"},
+{id: 4,label:"4"},
+{id: 5,label:"5"},
+{id: 6,label:"6"},
+{id: 7,label:"7"},
+{id: 8,label:"8"},
+{id: 9,label:"9"},
+{id: 10,label:"10"},
+{id: 11,label:"11"},
+{id: 12,label:"12"},
+]);
+var edges = new vis.DataSet([{from:1,to:5, label:"nan"},
+{from:2,to:4, label:"nan"},
+{from:3,to:4, label:"nan"},
+{from:4,to:2, label:"nan"},
+{from:4,to:3, label:"nan"},
+{from:5,to:1, label:"nan"},
+]);
+var container = document.getElementById('mynetwork'); var data = {nodes: nodes, edges: edges}; var options = {}; var network = new vis.Network(container, data, options);

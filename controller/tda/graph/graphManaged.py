@@ -16,6 +16,9 @@ class GraphManaged(Graph):
     def num_vertex(self):
         return self.__numVert
 
+    def setNumEdg(self, number):
+        self.__numEdg = number
+
     @property
     def num_edges(self):
         return self.__numEdg
@@ -60,6 +63,7 @@ class GraphManaged(Graph):
                 adj._weight = weight
                 # print(type(self.__listAdjacent[v1]))
                 self.__listAdjacent[v1].add(adj, self.__listAdjacent[v1]._length)
+                self.paint_graph()
         else:
             raise ArrayPositionException("Delimite out")
        

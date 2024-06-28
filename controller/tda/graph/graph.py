@@ -1,3 +1,6 @@
+
+import os 
+
 class Graph():
     def __init__(self):
 
@@ -32,6 +35,33 @@ class Graph():
             if not adjs.isEmpty:
                 for j in range (0, adjs._length):
                     adj = adjs.get(j)
-                    out += "ady " + "V" + str(adj._destination + 1) + "weight " + str(adj._weight) + "\n"
+                    out += "ady " + f"V" + str(adj._destination + 1) + " weight " + str(adj._weight) + "\n"
         return out 
+        
+    def paint_graph(self):
+        url = os.path.dirname(os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__)))))+"/static/d3/grafo.js"
+        #* NODES
+        js = 'var nodes = new vis.DataSet(['
+        for i in range(0, self.num_vertex):
+            js += '{id: ' + str(i + 1) + ',label:"' + str(i+1)+'"},' + '\n'
+        js += ']);'
+        js += "\n"
+
+        #* EDGES
+        js += 'var edges = new vis.DataSet(['
+        for i in range(0, self.num_vertex):
+            ini = (i + 1)
+            adjs = self.adjacent(i)
+            if not adjs.isEmpty:
+                for j in range (0, adjs._length):
+                    adj = adjs.get(j)
+                    des = str(adj._destination + 1)
+                    js += '{from:' + str(i + 1) + ',to:' + str(des) + ', label:"' + str(adj._weight) + '"},' + "\n"       
+   
+        js += ']);'
+        js += "\n"
+        js += "var container = document.getElementById('mynetwork'); var data = {nodes: nodes, edges: edges}; var options = {}; var network = new vis.Network(container, data, options);"
+        a = open(url, 'w')
+        a.write(js)
+        a.close()
         

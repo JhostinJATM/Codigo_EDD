@@ -1,5 +1,5 @@
 from typing import Type
-from controller.dao.daoAdapter import DaoAdapter
+from controller.dao.daoAdapterdb import DaoAdapter
 from model.censo import Censo
 
 class CensoDao(DaoAdapter):

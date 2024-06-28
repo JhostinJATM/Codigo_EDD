@@ -19,6 +19,10 @@ def home():
 #     lista.sort_models(attr, int(tipo))
 #     return render_template('nene/lista.html', lista=pd.to_dic_lista(lista))
 
+@router.route('/mapas')
+def mapa():
+    return render_template('d3/grafo.html')
+
 @router.route('/personas')
 def lista_persona():
     pd = PersonaDaoControl()
