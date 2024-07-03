@@ -23,6 +23,10 @@ def home():
 def mapa():
     return render_template('d3/grafo.html')
 
+# @router.route('/mapas_label')
+# def mapa_label():
+#     return render_template('d3/grafo_label.html')
+
 @router.route('/personas')
 def lista_persona():
     pd = PersonaDaoControl()

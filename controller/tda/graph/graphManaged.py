@@ -19,10 +19,21 @@ class GraphManaged(Graph):
     def setNumEdg(self, number):
         self.__numEdg = number
 
+    def setNumVertex(self, number):
+        self.__numVert = number
+
     @property
     def num_edges(self):
         return self.__numEdg
+    
+    @property
+    def _listAdjacent(self):
+        return self.__listAdjacent
 
+    @_listAdjacent.setter
+    def _listAdjacent(self, value):
+        self.__listAdjacent = value
+        
     def exist_edges(self, v1, v2):
         band = False
         if v1 <= self.num_vertex and v2 <= self.num_vertex:
