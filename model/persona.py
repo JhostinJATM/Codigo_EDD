@@ -101,7 +101,7 @@ class Persona:
         return persona
 
     def __str__(self) -> str:
-        return f"{self.__apellido} {self.__nombres}"
+        return f"{str(self.__id)} {self.__apellido} {self.__nombres}"
     
     
     

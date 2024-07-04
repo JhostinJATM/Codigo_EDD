@@ -55,6 +55,13 @@ class DaoAdapter(Generic[T]):
             # aux.append(json.dumps(self.lista.get(i).serializable))
             aux.append(self.lista.get(i).serializable)
         return aux
+    
+    def to_dic_lista(self, lista):
+        aux = []
+        arreglo = lista.toArray
+        for i in range(0, lista._length):
+            aux.append(arreglo[i].serializable)
+        return aux
 
     def __tranform__(self):
         try:

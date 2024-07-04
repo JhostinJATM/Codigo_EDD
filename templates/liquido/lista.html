@@ -1,0 +1,78 @@
+{% extends 'templateL.html' %} {% block content %}
+
+<script>
+  $(document).ready(function() {
+    $('#tipo').click(function() {
+      create()
+    })
+  })
+
+  function tabla(url){
+    $.ajax({
+      method: "GET",
+      url: url,
+      contentType: "json",
+      success: function (data) {
+        console.log(data);
+        if(data.code == 200){
+          var html = '<tr>'
+            $.each(data.data, function (i, info) {
+              console.log(info);
+              html += "<tr>"
+                html += "<td>" + i + "</td>"
+                html += "<td>" + info.apellido + " " + info.nombres +"</td>"
+                html += "<td>" + info.dni +"</td>"
+                html += "<td>" + '<a href="/personas/editar/'+info.id+'"class="btn btn-info">Modificar</a>' +"</td>"
+              html += "</tr>"
+                })
+                $('#tabla').html(html)
+        }
+      }
+    })
+  }
+
+  function create() {
+    var aux = $('#tipo').prop('checked');
+    if(aux)
+      tabla('http://localhost:5000/personas/1/_apellido')
+      else
+      tabla('http://localhost:5000/personas/2/_apellido')
+  }
+
+</script>
+
+<h2 class="text-white">Lista de Negocios</h2>
+  <div class="booking-form-body">
+    <a href="/negocio/agregar" class="btn btn-danger">Agregar</a>
+    <div class="row">
+      <input type="checkbox" value="DESCENDENTE" id="tipo"> DESCENDENTE
+      <button class="btn btn-info" id="link">ORDENAR</button>
+    </div>
+    <table id="tabla" class="table text-white">
+      <thead>
+        <tr>
+          <th>Nro</th>
+          <th>Nombre</th>
+          <th>Direccion</th>
+          <th>Horario</th>
+          <th>Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for item in lista %}
+          <tr>
+            <td>{{ item.id }}</td>
+            <td>{{ item.nombre }}</td>
+            <td>{{ item.direccion }}</td>
+            <td>{{ item.horario }}</td>
+            <!-- <td>{{ item.direccion }}</td> -->
+            <!-- <td>{{ item.telefono }}</td> -->
+            <td>
+              <a href="/negocio/editar/{{ item.id }}" class="btn btn-info">Modificar</a>
+            </td>
+          </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+{% endblock %}

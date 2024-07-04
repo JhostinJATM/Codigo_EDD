@@ -1,6 +1,7 @@
 
 from flask import Flask, Blueprint, url_for, jsonify, make_response, request, render_template, redirect, abort
 from controller.personaDaoControl import PersonaDaoControl
+from controller.liquido.negocioDaoControl import NegocioControl
 from config.logging_config import log
 import colorama
 # from flask_cors import CORS
@@ -19,6 +20,20 @@ def home():
 #     lista.sort_models(attr, int(tipo))
 #     return render_template('nene/lista.html', lista=pd.to_dic_lista(lista))
 
+#* Lista de Negocios
+@router.route('/negocios')
+def lista_negocios():
+    pd = NegocioControl()
+    lista = pd._list()
+    if not lista.isEmpty:
+        lista.sort_models("_nombre", 2)
+    return render_template('liquido/lista.html', lista=pd.to_dic_lista(lista))
+
+@router.route("/negocio/guardar")
+def agregar_negocio():
+    return render_template('liquido/guardar.html')
+
+#* Grafo
 @router.route('/mapas')
 def mapa():
     return render_template('d3/grafo.html')
