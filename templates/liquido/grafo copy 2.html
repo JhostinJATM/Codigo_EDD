@@ -1,0 +1,155 @@
+{% extends 'templateL.html' %}
+{% block content %}
+<script>
+  $(document).ready(function () {
+    $("#agregar, #cargar_json, #guardar_json").click(function (event) {
+      event.preventDefault();
+      if (this.id === "agregar") guardar();
+      if (this.id === "cargar_json") cargarJson();
+      if (this.id === "guardar_json") guardarJson();
+    });
+  });
+
+  function guardar() {
+    let origen = $("#origen").val();
+    let destino = $("#destino").val();
+    if (origen === destino) return alert("No se puede agregar una distancia entre el mismo lugar");
+
+    $.post(`/negocios/guardar_distancia/${origen}/${destino}`, {}, function(response) {
+      actualizarTabla(origen, destino, response.distancia);
+    }).fail(function(xhr) {
+      console.error("Error en la solicitud AJAX:", xhr.responseText);
+    });
+  }
+
+  function cargarJson() {
+    $.get("/negocios/cargar_json", function(data) {
+      reconstruirTablaDesdeJson(data);
+    }).fail(function(xhr) {
+      console.error("Error al cargar el JSON:", xhr.responseText);
+    });
+  }
+
+  function guardarJson() {
+    $.ajax({
+      url: "/negocios/guardar_json",
+      method: "POST",
+      contentType: "application/json",
+      data: JSON.stringify(obtenerMatrizDesdeTabla()),
+      success: function(response) {
+        alert(response.message);
+      },
+      error: function(xhr) {
+        console.error("Error al guardar el JSON:", xhr.responseText);
+      }
+    });
+  }
+
+  function actualizarTabla(origen, destino, distancia) {
+    let fila = document.getElementById('tabla').rows[parseInt(origen)];
+    let celda = fila.cells[parseInt(destino)];
+    celda.textContent = distancia;
+  }
+
+  function obtenerMatrizDesdeTabla() {
+    let matriz = { grafo: [] };
+    $('#tabla tbody tr').each(function(i, row) {
+      let nodoOrigen = { from: i, to: [], label: [] };
+      $(row).find('td').each(function(j, cell) {
+        if (j === 0) return; 
+        let distancia = parseFloat($(cell).text());
+        if (!isNaN(distancia)) {
+          nodoOrigen.to.push(j - 1);
+          nodoOrigen.label.push(distancia.toString());
+        }
+      });
+      matriz.grafo.push(nodoOrigen);
+    });
+    return matriz;
+  }
+
+  function reconstruirTablaDesdeJson(data) {
+    let nombres = [];
+    $('#tabla thead th').each(function(index, th) {
+      if (index > 0) nombres.push($(th).text());
+    });
+
+    $('#tabla tbody tr').each(function(i, row) {
+      $(row).find('td').each(function(j, cell) {
+        if (j > 0) $(cell).text("----");
+      });
+    });
+
+    data.grafo.forEach(function(edge) {
+      edge.to.forEach(function(destino, index) {
+        let fila = document.getElementById('tabla').rows[edge.from];
+        let celda = fila.cells[destino + 1];
+        celda.textContent = edge.label[index];
+      });
+    });
+  }
+</script>
+
+<h2 class="text-white p-4">Lista de Negocios</h2>
+<div class="booking-form-body">
+  <div class="row m-2">
+    <div class="card p-2 m-2 text-center">
+      <div class="card-header">
+        <h5>Agregar Adyacencia</h5>
+      </div>
+      <div class="card-body">
+        <div class="row">
+          <div class="col-lg-6 col-12">
+            <span>ORIGEN</span>
+            <select id="origen" class="form-control">
+              {% for item in lista %}
+                <option value="{{item.id}}">{{item.nombre}}</option>
+              {% endfor %}
+            </select>
+          </div>
+          <div class="col-lg-6 col-12">
+            <span>DESTINO</span>
+            <select id="destino" class="form-control">
+              {% for item in lista %}
+                <option value="{{item.id}}">{{item.nombre}}</option>
+              {% endfor %}
+            </select>
+          </div>
+          <div class="col-lg-6 col-12 mt-3">
+            <a href="#" id="agregar" class="btn btn-info">Agregar</a>
+          </div>
+          <div class="col-lg-6 col-12 mt-3">
+            <a href="/negocios" class="btn btn-danger">Volver</a>
+          </div>
+          <div class="col-lg-6 col-8 mt-3">
+            <a href="#" id="cargar_json" class="btn btn-info">Cargar</a>
+          </div>
+          <div class="col-lg-6 col-8 mt-3">
+            <a href="#" id="guardar_json" class="btn btn-info">Guardar</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <table id="tabla" class="table text-white">
+    <thead>
+      <tr>
+        <th>-----</th>
+        {% for item in lista %}
+        <th>{{item.nombre}}</th>
+        {% endfor %}
+      </tr>
+    </thead>
+    <tbody>
+      {% for item in lista %}
+      <tr>
+        <td>{{item.nombre}}</td>
+        {% for _ in lista %}
+          <td contenteditable="true">----</td>
+        {% endfor %}
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+</div>
+{% endblock %}

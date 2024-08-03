@@ -59,3 +59,24 @@ class Negocio:
 
     def __str__(self) -> str:
         return f"{str(self._id)} {self._nombre}"
+    
+    @property
+    def serializable(self):
+        return {
+            'id': self._id,
+            'nombre': self._nombre,
+            'direccion': self._direccion,
+            'horario': self._horario,
+            'lng': self._lng,
+            'lat': self._lat
+        }
+
+    def deserializar(data):
+        negocio = Negocio()
+        negocio._id = data['id']
+        negocio._nombre = data['nombre']
+        negocio._direccion = data['direccion']
+        negocio._horario = data['horario']
+        negocio._lng = data['lng']
+        negocio._lat = data['lat']
+        return negocio

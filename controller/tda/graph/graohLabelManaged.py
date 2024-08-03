@@ -66,3 +66,4 @@ class GraphLabelManaged(GraphManaged):
             return self.adjacent(v1)
         else:
             raise ArrayPositionException("Vertice no encontrado")
+

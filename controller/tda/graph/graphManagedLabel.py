@@ -61,27 +61,27 @@ class GrafoDirigidoEtiquetado(GraphManaged):
     def imprimir_longitud_etiquetas(self):
         print(f"Longitud de etiquetas: \n{len(self.etiquetas)}\n")
             
-    def paint_graph(self):
-        if self.all_etiquetados():
-            url = os.path.dirname(os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__)))))+"/static/d3/grafo.js"
-            js = 'var nodes = new vis.DataSet(['
-            for i, obj in enumerate(self.etiquetas):
-                if obj:
-                    js += '{id: ' + str(i + 1) + ',label:"' + obj["nombre"] + ' ' + obj["apellido"] + '"},' + '\n'
-            js += ']);\n'
+    # def paint_graph_etiquetado(self):
+    #     if self.all_etiquetados():
+    #         url = os.path.dirname(os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__)))))+"/static/d3/grafo.js"
+    #         js = 'var nodes = new vis.DataSet(['
+    #         for i, obj in enumerate(self.etiquetas):
+    #             if obj:
+    #                 js += '{id: ' + str(i + 1) + ',label:"' + obj["nombre"] + ' ' + obj["apellido"] + '"},' + '\n'
+    #         js += ']);\n'
 
-            js += 'var edges = new vis.DataSet(['
-            for i in range(self.num_vertex):
-                adjs = self.adjacent(i)
-                if not adjs.isEmpty:
-                    for j in range(adjs._length):
-                        adj = adjs.get(j)
-                        js += '{from:' + str(i + 1) + ',to:' + str(adj._destination + 1) + ', label:"' + str(adj._weight) + '"},' + "\n"
-            js += ']);\n'
-            js += "var container = document.getElementById('mynetwork'); var data = {nodes: nodes, edges: edges}; var options = {}; var network = new vis.Network(container, data, options);"
+    #         js += 'var edges = new vis.DataSet(['
+    #         for i in range(self.num_vertex):
+    #             adjs = self.adjacent(i)
+    #             if not adjs.isEmpty:
+    #                 for j in range(adjs._length):
+    #                     adj = adjs.get(j)
+    #                     js += '{from:' + str(i + 1) + ',to:' + str(adj._destination + 1) + ', label:"' + str(adj._weight) + '"},' + "\n"
+    #         js += ']);\n'
+    #         js += "var container = document.getElementById('mynetwork'); var data = {nodes: nodes, edges: edges}; var options = {}; var network = new vis.Network(container, data, options);"
 
-            with open(url, 'w') as file:
-                file.write(js)
-        else:
-            raise ArrayPositionException("No todos los vértices están etiquetados")
+    #         with open(url, 'w') as file:
+    #             file.write(js)
+    #     else:
+    #         raise ArrayPositionException("No todos los vértices están etiquetados")
             

@@ -41,12 +41,13 @@
 
 </script>
 
-<h2 class="text-white">Lista de Negocios</h2>
+<h2 class="text-white p-4">Lista de Negocios</h2>
   <div class="booking-form-body">
-    <a href="/negocio/agregar" class="btn btn-danger">Agregar</a>
+    <a href="/negocios/agregar" class="btn btn-danger">Agregar</a>
+    <a href="/negocios/grafo_negocio" target="_blank" class="btn btn-danger">Ver grafo</a>
+    <a href="/negocios/grafo_ver_admin" class="btn btn-danger">Administrar Grafo</a>
     <div class="row">
-      <input type="checkbox" value="DESCENDENTE" id="tipo"> DESCENDENTE
-      <button class="btn btn-info" id="link">ORDENAR</button>
+      
     </div>
     <table id="tabla" class="table text-white">
       <thead>
@@ -55,18 +56,21 @@
           <th>Nombre</th>
           <th>Direccion</th>
           <th>Horario</th>
+          <th>Latitud</th>
+          <th>Longitud</th>
           <th>Actions</th>
         </tr>
       </thead>
       <tbody>
-        {% for item in lista %}
+        {% for item in lista %} 
           <tr>
-            <td>{{ item.id }}</td>
+            <!-- <td>{{ item.id }}</td> -->
+            <td> 1 </td>
             <td>{{ item.nombre }}</td>
             <td>{{ item.direccion }}</td>
             <td>{{ item.horario }}</td>
-            <!-- <td>{{ item.direccion }}</td> -->
-            <!-- <td>{{ item.telefono }}</td> -->
+            <td>{{ item.lat }}</td>
+            <td>{{ item.lng}}</td>
             <td>
               <a href="/negocio/editar/{{ item.id }}" class="btn btn-info">Modificar</a>
             </td>

@@ -5,8 +5,7 @@ from controller.exception.arrayPositionException import ArrayPositionException
 from controller.exception.vacioException import VacioException
 from controller.tdaArray import TDAArray
 from controller.tda.linked.insercion import Insercion
-# from controller.tda.linked.merge_sort import MergeSort
-# from controller.tda.linked.quick_sort import QuickSort
+from controller.tda.linked.quick_sort import QuickSort
 from numbers import Number
 
 class LinkedList(object):
@@ -250,37 +249,40 @@ class LinkedList(object):
             self.toList(array)
         return self
     
-    # #? MERGER SORT
+    #! -------------QUICK SORT-------------
     
-    # def merge_models(self,attribute ,type = 1):
-    #     if self.isEmpty:
-    #         raise LinkedEmpty('Linked empty')
-    #     else:
-    #         array = self.toArray
-    #         if isinstance(array[0], object):
-    #             order = MergeSort()
-    #             if type == 1:
-    #                 array = order.merge_sort_attribute_ascendent(array, attribute)
-    #             else:
-    #                 array = order.merge_sort_attribute_descendent(array, attribute)
-    #         self.toList(array)
-    #     return self
+    #? QUICK SORT NUMEROS
+    
+    def quick_numbers(self, type = 1):
+        if self.isEmpty:
+            raise LinkedEmpty('Linked empty')
+        else:
+            array = self.toArray
+            if isinstance(array[0], object):
+                order = QuickSort()
+                if type == 1:
+                    array = order.quick_sort_number_ascendent(array)
+                else:
+                    array = order.quick_sort_number_descendent(array)
+            self.toList(array)
+        return self
+    
+    #? QUICK SORT POR ATRIBUTO
+    
+    def quick_models(self,attribute,type = 1):
+        if self.isEmpty:
+            raise LinkedEmpty('Linked empty')
+        else:
+            array = self.toArray
+            if isinstance(array[0], object):
+                order = QuickSort()
+                if type == 1:
+                    array = order.quick_sort_attribute_ascendent(array, attribute)
+                else:
+                    array = order.quick_sort_attribute_descendent(array, attribute)
+            self.toList(array)
+        return self
 
-    # #? QUICK SORT
-    
-    # def quick_models(self,attribute ,type = 1):
-    #     if self.isEmpty:
-    #         raise LinkedEmpty('Linked empty')
-    #     else:
-    #         array = self.toArray
-    #         if isinstance(array[0], object):
-    #             order = QuickSort()
-    #             if type == 1:
-    #                 array = order.quick_sort_attribute_ascendent(array, attribute)
-    #             else:
-    #                 array = order.quick_sort_attribute_descendent(array, attribute)
-    #         self.toList(array)
-    #     return self
             
     #!-----------------------------------METODOS DE BUSQUEDA------------------------------------
     
@@ -296,3 +298,66 @@ class LinkedList(object):
                 if array[i].startswith(data):
                     list.add(array[i], list._length)
         return list 
+    
+    #? -----------------------BUSQUEDA BINARIA-----------------------
+
+    #! Busqueda Binaria numeros 
+    
+    def busqueda_binaria_numeric(self, valor):
+        lista_resultante = LinkedList()
+
+        if self.isEmpty:
+            raise ValueError('La lista de valores está vacía')
+
+        array = self.toArray
+        
+        izquierda = 0
+        derecha = len(array) - 1
+        
+        while izquierda <= derecha:
+            medio = (izquierda + derecha) // 2
+            valor_actual = array[medio]
+            
+            if valor_actual == valor:
+                lista_resultante.add(valor_actual)
+                return lista_resultante
+            elif valor_actual < valor:
+                izquierda = medio + 1
+            else:
+                derecha = medio - 1
+        
+        return None
+
+
+    #! Busqueda Binaria por atributo
+   
+    def busqueda_binaria(self, atributo, valor):
+        lista_resultante = None
+
+        if self.isEmpty:
+            raise LinkedEmpty('Linked empty')
+        
+        lista_nueva = self.quick_models(atributo, 1)
+        array = lista_nueva.toArray
+        
+        izquierda = 0
+        derecha = len(array) - 1
+        
+        while izquierda <= derecha:
+            medio = (izquierda + derecha) // 2
+            actual = array[medio]
+            
+            try:
+                valor_actual = getattr(actual, atributo)
+            except AttributeError:
+                raise ValueError("Atributo no válido para búsqueda")
+            
+            if valor_actual == valor:
+                lista_resultante = array[medio]
+                return lista_resultante
+            elif valor_actual < valor:
+                izquierda = medio + 1
+            else:
+                derecha = medio - 1
+        
+        return None

@@ -1,5 +1,4 @@
 from typing import TypeVar, Generic, Type
-import logging as log
 from controller.tda.linked.linkedList import LinkedList
 import os.path
 from numbers import Number
@@ -80,7 +79,7 @@ class DaoAdapter(Generic[T]):
             a.write(self.__tranform__())
             a.close()
         except Exception as e:
-            log.debug(f"Error en merge es: {e}")
+            print(f"Error en merge es: {e}")
 
     def to_dict(self):
         aux = []

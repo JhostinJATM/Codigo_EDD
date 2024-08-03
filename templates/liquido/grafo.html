@@ -1,0 +1,76 @@
+{% extends 'templateL.html' %}
+{% block content %}
+<script>
+  $(document).ready(function() {
+    $('#agregar').click(function() {
+      guardar()
+    })
+  })
+
+  
+
+</script>
+
+<h2 class="text-white p-4">Lista de Negocios</h2>
+<div class="booking-form-body">
+  <div class="row m-2">
+    <div class="card p-2 m-2 text-center">
+      <div class="card-header">
+        <h5>Agregar Adyacencia</h5>
+      </div>
+      <div class="card-body">
+        <div class="row">
+          <div class="col-lg-6 col-12">
+            <span>ORIGEN</span>
+            <select id="origen" class="form-control">
+              {% for item in lista %}
+                <option value="{{item.id}}">{{item.nombre}}</option>
+              {% endfor %}
+            </select>
+          </div>
+          <div class="col-lg-6 col-12">
+            <span>DESTINO</span>
+            <select id="destino" class="form-control">
+              {% for item in lista %}
+                <option value="{{item.id}}">{{item.nombre}}</option>
+              {% endfor %}
+            </select>
+          </div>
+          <div class="col-lg-6 col-12 mt-3">
+            <a href="#" id="agregar" class="btn btn-info">Agregar</a>
+          </div>
+          <div class="col-lg-6 col-12 mt-3">
+            <a href="/negocios" class="btn btn-danger">Volver</a>
+          </div>
+          <div class="col-lg-6 col-8 mt-3">
+            <a href="#" id="cargar_json" class="btn btn-info">Cargar</a>
+          </div>
+          <div class="col-lg-6 col-8 mt-3">
+            <a href="#" id="guardar_json" class="btn btn-info">Guardar</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <table id="tabla" class="table text-white">
+    <thead>
+      <tr>
+        <th>-----</th>
+        {% for item in lista %}
+        <th>{{item.nombre}}</th>
+        {% endfor %}
+      </tr>
+    </thead>
+    <tbody>
+      {% for item in lista %}
+      <tr>
+        <td>{{item.nombre}}</td>
+        {% for _ in lista %}
+          <td contenteditable="true">----</td>
+        {% endfor %}
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+</div>
+{% endblock %}

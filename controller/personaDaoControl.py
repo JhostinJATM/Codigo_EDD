@@ -1,7 +1,6 @@
 from typing import Type
 from controller.dao.daoAdapterdb import DaoAdapter
 from model.persona import Persona
-from config.logging_config import log
 import colorama
 
 class PersonaDaoControl(DaoAdapter):
@@ -29,13 +28,10 @@ class PersonaDaoControl(DaoAdapter):
     @property
     def save(self):
         try:
-            # log.debug(colorama.Fore.RED + f"iD: {self._lista._length}" + colorama.Fore.RESET)
-            # self._persona._id = self._lista._length + 1
-            # log.info(colorama.Fore.BLUE + f"nuevo id = {self._persona._id}" + colorama.Fore.RESET)
             self._save(self._persona)
             return True
         except Exception as e:
-            log.debug(colorama.Fore.GREEN + f"Error en save(personaDaoControl) es: {e}" + colorama.Fore.RESET)
+            print(colorama.Fore.GREEN + f"Error en save(personaDaoControl) es: {e}" + colorama.Fore.RESET)
             return False
 
 

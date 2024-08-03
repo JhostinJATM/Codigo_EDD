@@ -1,10 +1,12 @@
 from controller.tda.graph.graohLabelManaged import GraphLabelManaged
 from controller.exception.arrayPositionException import ArrayPositionException
 from math import nan
+import os
 
-class GrafoEtiquetadoNoDirigido(GraphLabelManaged):
+class GraphLabelNoManaged(GraphLabelManaged):
     def __init__(self, num_vert):
         super().__init__(num_vert)
+        self.__grafo = None
         
     def inserta_arista_E(self, label1, label2):
         self.insertar_arista_peso_E(label1, label2, nan)

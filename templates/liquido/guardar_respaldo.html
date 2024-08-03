@@ -1,0 +1,77 @@
+{% extends 'template.html' %}
+
+{% block content %}
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
+    integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY="
+    crossorigin=""/>
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
+    integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo="
+    crossorigin=""></script>
+<script>
+</script>
+<h2 class="text-white">Agregar Negocio</h2>
+
+<div class="booking-form-body">
+  <a href="/negocios" class="btn btn-danger">Volver</a>
+  <form class="custom-form booking-form" id="form" action="/negocios/guardar" method="post" role="form">
+    <div class="row">
+      <div class="text-center mb-4 pb-lg-2">
+        <input type="text" name="nombre" id="nombre" class="form-control" placeholder="Ingrese su nombre" required />
+      </div>
+      <div class="text-center mb-4 pb-lg-2">
+        <input type="text" name="direccion" id="direccion" class="form-control" placeholder="Ingrese la direccion" required />
+      </div>
+      <div class="text-center mb-4 pb-lg-2">
+        <input type="text" name="horario" id="horario" class="form-control" placeholder="Ingrese el horario" required />
+      </div>
+      <div class="text-center">
+        <div id="map" style="height: 500px;"></div>
+      </div>
+      <div class="text-center mb-4 pb-lg-2">
+        <input type="hidden" name="latitud" id="latitud" />
+        <input type="hidden" name="longitud" id="longitud" />
+      </div>
+      <div class="col-lg-4 col-md-10 col-8 mx-auto mt-2">
+        <button type="submit" class="form-control btn btn-success boton">Guardar</button>
+      </div>
+    </div>
+  </form>
+</div>
+
+<script>
+  var map = L.map("map").setView([51.505, -0.09], 13);
+
+  L.tileLayer("https://tile.openstreetmap.org/{z}/{x}/{y}.png", {
+    maxZoom: 19,
+    attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>',
+  }).addTo(map);
+
+  var marker;
+
+  function onMapClick(e) {
+    if (marker) {
+      marker.setLatLng(e.latlng);
+    } else {
+      marker = L.marker(e.latlng, {
+        icon: L.icon({
+          iconUrl: 'https://unpkg.com/leaflet@1.9.4/dist/images/marker-icon.png',
+          iconSize: [25, 41],
+          iconAnchor: [12, 41],
+          popupAnchor: [1, -34],
+          shadowSize: [41, 41]
+        })
+      }).addTo(map);
+    }
+
+    var latitud = e.latlng.lat;
+    var longitud = e.latlng.lng;
+
+    // Update hidden form fields with latitude and longitude
+    document.getElementById('latitud').value = latitud;
+    document.getElementById('longitud').value = longitud;
+
+  }
+
+  map.on('click', onMapClick);
+</script>
+{% endblock %}

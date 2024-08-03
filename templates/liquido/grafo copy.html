@@ -1,0 +1,112 @@
+{% extends 'templateL.html' %}
+{% block content %}
+<script>
+  $(document).ready(function () {
+    $("#agregar").click(function (event) {
+      event.preventDefault();
+      guardar();
+    });
+  });
+
+  function guardar() {
+    let origen = $("#origen").val();
+    let destino = $("#destino").val();
+    
+    if (origen == destino) {
+      alert("No se puede agregar una distancia entre el mismo lugar");
+      return;
+    }
+
+    let url = "/negocios/agregar/" + origen + "/" + destino;
+    console.log(url);
+    $.ajax({
+      method: "POST",
+      url: url,
+      dataType: "json",
+      success: function(response) {
+        console.log("Bien");
+        <!-- //* Esto llama a función para actualizar la tabla con la distancia que se obtiene de mi backend-->
+        actualizarTabla(origen, destino, response.distancia);
+      },
+      error: function(xhr, status, error) {
+        console.error("Error en la solicitud AJAX:", error);
+      }
+    });
+  }
+
+  //* Esta función es para actualizar la tabla con la distancia
+  function actualizarTabla(origen, destino, distancia) {
+    let tabla = document.getElementById('tabla');
+    let filas = tabla.rows;
+
+    //* Encontrar las filas de origen y destino
+    let filaOrigen = filas[parseInt(origen)];
+    let celdaDestino = filaOrigen.cells[parseInt(destino)];
+
+    //*  Para validar que sea un numero valido
+    if (typeof distancia === 'number' && !isNaN(distancia)) {
+      celdaDestino.textContent = distancia
+    } else {
+      console.error("La distancia recibida no es un número válido:", distancia);
+    }
+  }
+</script>
+
+
+<h2 class="text-white p-4">Lista de Negocios</h2>
+<div class="booking-form-body">
+  <div class="row m-2">
+    <div class="card p-2 m-2 text-center">
+      <div class="card-header">
+        <h5>Agregar Adyacencia</h5>
+      </div>
+      <div class="card-body">
+        <div class="row">
+          <div class="col-lg-6 col-12">
+            <span>ORIGEN</span>
+            <select id="origen" class="form-control">
+              {% for item in lista %}
+                <option value="{{item.id}}">{{item.nombre}}</option>
+              {% endfor %}
+            </select>
+          </div>
+          <div class="col-lg-6 col-12">
+            <span>DESTINO</span>
+            <select id="destino" class="form-control">
+              {% for item in lista %}
+                <option value="{{item.id}}">{{item.nombre}}</option>
+              {% endfor %}
+            </select>
+          </div>
+          <div class="col-lg-6 col-12 mt-3">
+            <a href="#" id="agregar" class="btn btn-info">Agregar</a>
+          </div>
+          <div class="col-lg-6 col-12 mt-3">
+            <a href="/negocios" class="btn btn-danger">Volver</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <table id="tabla" class="table text-white">
+    <thead>
+      <tr>
+        <th>-----</th>
+        {% for item in lista %}
+        <th>{{item.nombre}}</th>
+        {% endfor %}
+      </tr>
+    </thead>
+    <tbody>
+      {% for item in lista %}
+      <tr>
+        <td>{{item.nombre}}</td>
+        {% for _ in lista %}
+          <td>----</td>
+        {% endfor %}
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+</div>
+{% endblock %}

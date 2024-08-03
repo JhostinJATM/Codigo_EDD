@@ -7,7 +7,7 @@ from controller.tda.graph.graphNoManaged import GraphNoManaged
 from controller.tda.graph.graphManagedLabel import GrafoDirigidoEtiquetado
 from controller.exception.arrayPositionException import ArrayPositionException
 from controller.tda.graph.graohLabelManaged import GraphLabelManaged
-from controller.tda.graph.graphLabelNoManaged import GrafoEtiquetadoNoDirigido
+from controller.tda.graph.graphLabelNoManaged import GraphLabelNoManaged
 from controller.personaControl import PersonaControl
 #? Pruebas de Graphos 
 
@@ -102,7 +102,7 @@ if __name__ == "__main__":
     
     #! Grafo No Etiquetado No Dirigido
     
-    graphL = GrafoEtiquetadoNoDirigido(5)
+    graphL = GraphLabelNoManaged(5)
     
 
     graphL.label_vertex(0, 11)
